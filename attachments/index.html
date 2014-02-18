@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Hive</title>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
+  <link href="vendor/backbone-forms-bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/morris.css" rel="stylesheet" media="screen" />
+  <link href="vendor/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" media="screen" />
+  <link href="app/app.css" rel="stylesheet" />
+
+  <!--
+    DEPENDENCIES
+  -->
+
+  <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="vendor/underscore-1.4.4.js"></script>
+  <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-forms.js"></script>
+  <script src="vendor/list.js"></script>
+  <script src="vendor/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.js"></script>
+  <script src="vendor/sha1.js"></script>
+  <script src="vendor/jquery.couch.js"></script>
+  <script src="vendor/backbone.couchdb.js"></script>
+  <script src="vendor/html-encode.js"></script>
+  <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/moment.min.js"></script>
+  <script src="vendor/moment-timezone.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="vendor/raphael-min.js"></script>
+  <script src="vendor/morris.js"></script>
+  <script src="vendor/spin.min.js"></script>
+  <script src="vendor/jquery.spin.js"></script>
+  <script src="vendor/jquery-ui-timepicker-addon.js"></script>
+
+  <!--
+    App
+  -->
+
+  <script src="app/App.js"></script>
+  <script src="app/Router.js"></script>
+
+  <script src="app/models/Database.js"></script>
+  <script src="app/models/Device.js"></script>
+
+  <script src="app/collections/Databases.js"></script>
+  <script src="app/collections/Devices.js"></script>
+
+  <script src="app/views/DeviceForm.js"></script>
+  <script src="app/views/DevicesTable.js"></script>
+  <script src="app/views/DeviceRow.js"></script>
+  <script src="app/views/DatabasesTable.js"></script>
+  <script src="app/views/DatabaseRow.js"></script>
+
+  
+</head>
+
+<body>
+
+
+</body>
+
+
+  <!-- 
+    Templates 
+  -->
+
+
+  <script type="text/template" id="template-app">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">BeLL Messenger Manager</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="title"></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="container body">
+      <!-- Content -->
+    </div>
+     
+    <!-- Modal -->
+    <div class="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true">×</button>
+      </div>
+      <div class='content'>
+        <!-- Content -->
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-SyncTable">
+    <th>Databases syncing...</th>
+  </script>
+
+
+  <script type="text/template" id="template-DatabaseRow">
+    <td><%= name %></td>
+    <td class='progress'>...</td>
+  </script>
+
+  <script type="text/template" id="template-DevicesTable">
+    <th> Devices <a href='#device' class='btn'>+ new device</a></th>
+  </script>
+
+  <script type="text/template" id="template-DeviceRow">
+    <td><%= label %></td>
+    <td><%= url %></td>
+    <td><a href='#device/<%= _id %>' class='btn'>edit</a></td>
+    <td><div class='btn'>remove</div></td>
+    <td><div class='btn'>sync</div></td>
+  </script>
+  
+  <script type="text/template" id="template-DeviceForm">
+
+  </script>
+
+
+
+  <!-- 
+    START THE APP
+  -->
+
+  <script>
+    $(document).ready(function() {
+      App.start()
+    })
+  </script>
+
+</html>
