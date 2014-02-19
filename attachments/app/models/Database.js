@@ -2,6 +2,12 @@ $(function() {
 
   App.Models.Database = Backbone.Model.extend({
 
+    idAttribute: '_id',
+
+    initialize: function() {
+      if (!this.get('kind')) this.set('kind', 'Database')
+    },
+
     url: function() {
       if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
@@ -15,10 +21,10 @@ $(function() {
     },
     
     // Set your server. For example, http://127.0.0.1:5984
-    server: null,
+    server: '',
 
     // Set your database.  In web browsers, to use the current database in browser's URL, use document.URL.split("/")[3]
-    db : document.URL.split("/")[3],
+    db : document.URL.split("/")[3]
 
   }) 
 

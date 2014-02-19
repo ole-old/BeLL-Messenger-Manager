@@ -10,9 +10,15 @@ $(function() {
       return '/' + this.db + "/_all_docs?include_docs=true"
     },
 
+    kind: 'Device',
+
     parse: function(response) {
-      var docs = _.map(response.rows, function(row) {
-        if (row.hasOwnProperty('doc') && row.doc.hasOwnProperty('kind') && row.doc.kind == "Device") return row.doc
+      var collection = this
+      var docs = [] 
+      _.each(response.rows, function(row) {
+        if (row.hasOwnProperty('doc') && row.doc.hasOwnProperty('kind') && row.doc.kind == collection.kind) {
+          docs.push(row.doc)
+        }
       })
       return docs
     },

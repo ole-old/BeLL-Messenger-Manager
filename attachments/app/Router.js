@@ -37,15 +37,22 @@ $(function() {
 
       var ev = new Backbone.Model()
       var databases = new App.Collections.Databases()
-      var databasesTable = new App.Collections.DatabasesTable({collection: databases})
-      var device = new App.Model.Device()
-      device.id = deviceId
+      var databasesTable = new App.Views.DatabasesTable({collection: databases})
+      var device = new App.Models.Device()
+      device.set('_id', deviceId)
+
+      App.clear()
+      App.setTitle('Devices')
+      App.append(databasesTable.el)
 
       ev.on('0', function() {
-        databasesTable.collection.fetch({success: function() {
+
+       // databasesTable.collection.fetch({success: function() {
+        databasesTable.collection.on('sync', function() {
           databasesTable.render()
           ev.trigger('1') 
-        }})
+        })
+        databasesTable.collection.fetch()
       })
 
       ev.on('1', function() {
@@ -59,7 +66,7 @@ $(function() {
           alert('Syncing has completed')
           Backbone.history.navigate('', {trigger: true})
         })
-        databasesTable.syncWith(device)
+        //databasesTable.syncWith(device)
       })
 
       ev.trigger('0')
