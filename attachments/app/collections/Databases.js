@@ -26,6 +26,25 @@ $(function() {
     comparator: function(model) {
       var label = model.get('name')
       if (label) return label.toLowerCase()
+    },
+
+    // Runs replicationSync() on a database, waits for done, moves on to the next one
+    syncWith: function(device) {
+      var collection = this
+      var i = 0
+      function replicate() {
+        if(i == collection.models.length) {
+          collection.trigger('syncWith:done')
+        }
+        else {
+          collection.models[i].on('replicationSync:done', function() {
+            i++
+            replicate()
+          })
+          collection.models[i].replicationSync(window.location.origin, device.get('url'))
+        }
+      }
+      replicate()
     }
 
   })

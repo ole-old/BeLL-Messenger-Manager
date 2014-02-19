@@ -15,14 +15,6 @@ $(function() {
       this.$el.append('<a class="btn" id="save">save</a><a class="btn" id="delete">delete</a>')
     },
 
-    delete: function() {
-      var form = this
-      this.model.on('sync', function() {
-        form.trigger('done')
-      })
-      this.model.destroy()
-    },
-
     setFormFromEnterKey: function(event) {
       event.preventDefault()
       this.setForm()
@@ -32,7 +24,16 @@ $(function() {
       var form = this
       form.form.commit()
       form.model.once('sync', function() {
-        form.trigger('done')
+        $.couch.login({
+          name: form.model.get('userName'),
+          password: form.model.get('password'),
+          success: function(data) {
+            form.trigger('done')
+          },
+          error: function(status) {
+            alert('login failed')
+          }
+        });
       })
       form.model.save()
     },

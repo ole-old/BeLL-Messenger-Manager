@@ -83,7 +83,7 @@
           <a class="brand" href="#">BeLL Messenger Manager</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="title"></li>
+              <li><a href='#devices'>Devices</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -95,29 +95,20 @@
       <!-- Content -->
     </div>
      
-    <!-- Modal -->
-    <div class="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" aria-hidden="true">×</button>
-      </div>
-      <div class='content'>
-        <!-- Content -->
-      </div>
-    </div>
   </script>
 
-  <script type="text/template" id="template-SyncTable">
-    <th>Databases syncing...</th>
+  <script type="text/template" id="template-DatabasesTable">
+    <th><h1>Databases syncing...</h1></th>
   </script>
 
 
   <script type="text/template" id="template-DatabaseRow">
     <td><%= name %></td>
-    <td class='progress'>...</td>
+    <td><%= status %></td>
   </script>
 
   <script type="text/template" id="template-DevicesTable">
-    <th> Devices <a href='#device' class='btn'>+ new device</a></th>
+    <th> <h1>Devices</h1> <a href='#device' class='btn'>+ new device</a></th>
   </script>
 
   <script type="text/template" id="template-DeviceRow">

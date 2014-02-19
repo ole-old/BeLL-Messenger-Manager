@@ -24,7 +24,19 @@ $(function() {
     server: '',
 
     // Set your database.  In web browsers, to use the current database in browser's URL, use document.URL.split("/")[3]
-    db : document.URL.split("/")[3]
+    db : document.URL.split("/")[3],
+
+    replicationSync: function(serverOne, serverTwo) {
+      var database = this
+      database.set('status', serverOne + ' --> ' + serverTwo)
+      $.couch.replicate(serverOne + '/' + database.get('name'), serverTwo + '/' + database.get('name'), {success: function() {
+        database.set('status', serverOne + ' <-- ' + serverTwo)
+        $.couch.replicate(serverTwo + '/' + database.get('name'), serverOne + '/' + database.get('name'), {success: function() {
+          database.set('status', 'done')
+          database.trigger('replicationSync:done')
+        }}, {create_target:true})
+      }}, {create_target:true})
+    }
 
   }) 
 

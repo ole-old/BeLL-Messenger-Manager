@@ -9,7 +9,9 @@ $(function() {
       'sync/:deviceId' : 'Sync'
     },
 
+
     Login: function() {
+
       var modelClass = 'User'
       var viewClass = 'LoginForm'
       this.StandardForm(modelClass, viewClass, null, function(model) {
@@ -18,6 +20,7 @@ $(function() {
         Backbone.history.navigate('devices', {trigger: true})
 
       })
+
     },
 
     
@@ -38,11 +41,13 @@ $(function() {
 
 
     DeviceForm: function(deviceId) {
+
       var modelClass = 'Device'
       var viewClass = 'DeviceForm'
       this.StandardForm(modelClass, viewClass, deviceId, function() {
         Backbone.history.navigate('devices', {trigger: true})
       })
+
     },
 
 
@@ -75,11 +80,10 @@ $(function() {
       })
 
       ev.on('2', function() {
-        databasesTable.on('done', function() {
-          alert('Syncing has completed')
-          Backbone.history.navigate('', {trigger: true})
+        databasesTable.collection.on('syncWith:done', function() {
+          //Backbone.history.navigate('devices', {trigger: true})
         })
-        //databasesTable.syncWith(device)
+        databasesTable.collection.syncWith(device)
       })
 
       ev.trigger('0')

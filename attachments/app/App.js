@@ -13,6 +13,7 @@ $(function() {
     start: function(){
       this.$el.html(_.template(this.template))
       Backbone.history.start({pushState: false})
+      Backbone.history.navigate('', {trigger: true})
     },
     
    
