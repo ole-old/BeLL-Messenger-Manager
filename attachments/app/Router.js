@@ -2,11 +2,22 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      '' : 'Devices',
+      '' : 'Login',
       'devices' : 'Devices',
       'device' : 'DeviceForm',
       'device/:deviceId' : 'DeviceForm',
       'sync/:deviceId' : 'Sync'
+    },
+
+    Login: function() {
+      var modelClass = 'User'
+      var viewClass = 'LoginForm'
+      this.StandardForm(modelClass, viewClass, null, function(model) {
+        // todo
+        App.user = model
+        Backbone.history.navigate('devices', {trigger: true})
+
+      })
     },
 
     
@@ -29,7 +40,9 @@ $(function() {
     DeviceForm: function(deviceId) {
       var modelClass = 'Device'
       var viewClass = 'DeviceForm'
-      this.StandardForm(modelClass, viewClass, deviceId)
+      this.StandardForm(modelClass, viewClass, deviceId, function() {
+        Backbone.history.navigate('devices', {trigger: true})
+      })
     },
 
 
@@ -74,7 +87,7 @@ $(function() {
     },
 
 
-    StandardForm: function(modelClass, viewClass, id, redirect) {
+    StandardForm: function(modelClass, viewClass, id, callback) {
       
       App.setTitle('')
 
@@ -83,7 +96,7 @@ $(function() {
       if(id) form.model.set('_id', id)
 
       form.once('done', function() {
-        Backbone.history.navigate('', {trigger: true})
+        callback(form.model)
       })
       
       App.clear()
