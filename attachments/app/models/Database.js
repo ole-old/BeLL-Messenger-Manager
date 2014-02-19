@@ -43,12 +43,14 @@ $(function() {
 
     replicationSync: function(serverOne, serverTwo) {
       var database = this
+      database.monitorDbInfoChanges('start')
       database.set('status', serverOne + ' --> ' + serverTwo)
       $.couch.replicate(serverOne + '/' + database.get('name'), serverTwo + '/' + database.get('name'), {success: function() {
         database.set('status', serverOne + ' <-- ' + serverTwo)
         $.couch.replicate(serverTwo + '/' + database.get('name'), serverOne + '/' + database.get('name'), {success: function() {
           database.set('status', 'done')
           database.trigger('replicationSync:done')
+          database.monitorDbInfoChanges('stop')
         }}, {create_target:true})
       }}, {create_target:true})
     },
@@ -79,21 +81,17 @@ $(function() {
     },
 
 
-
     fetchDbInfo: function() {
       var model = this
-      this.set('status', 'Calculating...')
       $.couch.db(model.get('name')).info({
         success: function(data) {
           model.set('doc_count', data.doc_count)
           model.set('disk_size', data.disk_size)
-          model.set('status', '')      
         },
         error: function(err) {
           model.set('doc_count', '...')
           model.set('disk_size', '...')
           if(err == '404') {
-            model.set('status', 'Creating database...')
             model.createDatabase(function(err, body) {
               if(!err) {
                 // Now we can successfully fetch the info
@@ -112,7 +110,21 @@ $(function() {
 
         }
       })
+    },
+
+
+    monitorDbInfoChanges: function(op) {
+      var model = this
+      if(op == 'start') {
+        this.infoMonitor = setInterval(function(){
+          model.fetchDbInfo()
+        },5000)
+      }
+      else if(op == 'stop') {
+        clearInterval(this.infoMonitor)
+      }
     }
+
 
   }) 
 

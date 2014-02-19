@@ -32,6 +32,8 @@ $(function() {
     syncWith: function(device) {
       var collection = this
       var i = 0
+      var serverOne = 'http://' + App.user.get('userName') + ':' + App.user.get('password') + '@' + window.location.origin.substr(7)
+      var serverTwo = device.get('url')
       function replicate() {
         if(i == collection.models.length) {
           collection.trigger('syncWith:done')
@@ -41,7 +43,7 @@ $(function() {
             i++
             replicate()
           })
-          collection.models[i].replicationSync(window.location.origin, device.get('url'))
+          collection.models[i].replicationSync(serverOne, serverTwo)
         }
       }
       replicate()
