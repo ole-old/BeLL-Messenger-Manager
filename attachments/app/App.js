@@ -11,7 +11,7 @@ $(function() {
     template: $("#template-app").html(),
 
     start: function(){
-      this.$el.html(_.template(this.template))
+      this.$el.append(_.template(this.template))
       Backbone.history.start({pushState: false})
       Backbone.history.navigate('', {trigger: true})
     },
@@ -27,6 +27,12 @@ $(function() {
     
     setTitle: function(title) {
       $('.nav .title').text(title)
+    },
+
+    updateNav: function() {
+      var hash = window.location.hash.substring(1)
+      $('.nav').removeClass('active')
+      $('.nav .' + hash).addClass('active')
     }
 
 

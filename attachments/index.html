@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BeLL Messenger Manager</title>
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-  <link href="vendor/backbone-forms-bootstrap.css" rel="stylesheet" media="screen" />
-  <link href="vendor/morris.css" rel="stylesheet" media="screen" />
-  <link href="vendor/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen" />
   <link href="app/app.css" rel="stylesheet" />
 
   <!--
@@ -47,6 +45,7 @@
   <script src="app/collections/Devices.js"></script>
 
   <script src="app/views/DeviceForm.js"></script>
+  <script src="app/views/DatabaseForm.js"></script>
   <script src="app/views/DevicesTable.js"></script>
   <script src="app/views/DeviceRow.js"></script>
   <script src="app/views/DatabasesTable.js"></script>
@@ -58,7 +57,6 @@
 
 <body>
 
-
 </body>
 
 
@@ -68,6 +66,15 @@
 
 
   <script type="text/template" id="template-app">
+    <div class="page-header">
+      <h3>BeLL Messenger Manager</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+      <li><a href="#devices" class='devices active'>Devices</a></li>
+      <li><a href="#databases" class='databases'>Databases</a></li>
+    </ul>
+
 
     <!-- Body -->
     <div class="container body">
@@ -77,24 +84,55 @@
   </script>
 
   <script type="text/template" id="template-DatabasesTable">
-    <th><h1>Databases syncing...</h1></th>
-  </script>
+    <h1>Databases</h1> 
+    <a href='#database' class='btn btn-primary btn-lg active' role='button'>+ new database</a>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th></th>
+          <th>Number of Documents</th>
+          <th>Size on disk</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
 
+      </tbody>
+    </table>
+  </script>
 
   <script type="text/template" id="template-DatabaseRow">
     <td><%= name %></td>
+    <td><button class="btn" id="delete">delete</button></td>
+    <td><%= doc_count %></td>
+    <td><%= disk_size %></td>
     <td><%= status %></td>
   </script>
 
   <script type="text/template" id="template-DevicesTable">
-    <th> <h1>Devices</h1> <a href='#device' role='button'>+ new device</a></th>
+    <h1>Devices</h1> 
+    <a href='#device' class='btn btn-primary btn-lg active' role='button'>+ new device</a>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>label</th>
+          <th>url</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
   </script>
 
   <script type="text/template" id="template-DeviceRow">
     <td><%= label %></td>
     <td><%= url %></td>
-    <td><a href='#device/<%= _id %>' class='button'>edit</a></td>
-    <td><a href='#sync/<%= _id %>' class='button'>sync</a></td>
+    <td><a href='#device/<%= _id %>' class='btn btn-primary btn-lg active' role='button'>edit</a></td>
+    <td><a href='#sync/<%= _id %>' class='btn btn-primary btn-lg active' role='button'>sync</a></td>
   </script>
   
   <script type="text/template" id="template-DeviceForm">

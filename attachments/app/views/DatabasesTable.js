@@ -2,10 +2,6 @@ $(function() {
 
   App.Views.DatabasesTable = Backbone.View.extend({
 
-    tagName: "table",
-
-    className: "table table-striped",
-
     template: $('#template-DatabasesTable').html(),
 
     itemView: 'DatabaseRow',
@@ -16,7 +12,7 @@ $(function() {
     addOne: function(model){
       var rowView = new App.Views[this.itemView]({model: model})
       rowView.render()  
-      this.$el.append(rowView.el)
+      this.$el.find('tbody').append(rowView.el)
     },
 
     addAll: function(){

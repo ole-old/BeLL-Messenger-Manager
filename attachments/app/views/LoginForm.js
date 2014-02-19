@@ -12,7 +12,7 @@ $(function() {
     render: function() {
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
-      this.$el.append('<a class="btn btn-primary btn-lg active" role="button" id="save">save</a>')
+      this.$el.append('<a class="btn btn-primary btn-lg active" role="button" id="save">login</a>')
     },
 
     setFormFromEnterKey: function(event) {

@@ -3,6 +3,8 @@ $(function() {
 
     routes: {
       '' : 'Login',
+      'databases' : 'Databases',
+      'database' : 'DatabaseForm',
       'devices' : 'Devices',
       'device' : 'DeviceForm',
       'device/:deviceId' : 'DeviceForm',
@@ -30,6 +32,7 @@ $(function() {
       var devicesTable = new App.Views.DevicesTable({collection: devices})
 
       App.clear()
+      App.updateNav()
       App.setTitle('Devices')
       App.append(devicesTable.el)
 
@@ -46,6 +49,34 @@ $(function() {
       var viewClass = 'DeviceForm'
       this.StandardForm(modelClass, viewClass, deviceId, function() {
         Backbone.history.navigate('devices', {trigger: true})
+      })
+
+    },
+
+
+    Databases: function() {
+      
+      var collection = new App.Collections.Databases()
+      var table = new App.Views.DatabasesTable({collection: collection})
+
+      App.clear()
+      App.updateNav()
+      App.setTitle('Devices')
+      App.append(table.el)
+
+      table.collection.fetch({success: function() {
+        table.render()
+      }})
+
+    },
+
+
+    DatabaseForm: function(deviceId) {
+
+      var modelClass = 'Database'
+      var viewClass = 'DatabaseForm'
+      this.StandardForm(modelClass, viewClass, deviceId, function() {
+        Backbone.history.navigate('databases', {trigger: true})
       })
 
     },

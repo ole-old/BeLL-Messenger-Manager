@@ -2,10 +2,25 @@ $(function() {
 
   App.Models.Database = Backbone.Model.extend({
 
+    schema: {
+      'name': 'Text',
+      'kind': 'Hidden'
+    },
+
     idAttribute: '_id',
 
     initialize: function() {
+
+      // events
+      this.listenTo(this, 'destroy', this.dropDatabase)
+      this.listenTo(this, 'create', this.createDatabase)
+
+      // default values
       if (!this.get('kind')) this.set('kind', 'Database')
+
+      // operation
+      this.fetchDbInfo()
+
     },
 
     url: function() {
@@ -36,6 +51,67 @@ $(function() {
           database.trigger('replicationSync:done')
         }}, {create_target:true})
       }}, {create_target:true})
+    },
+
+    createDatabase: function(callback) {
+      if(typeof(callback) != 'function') callback = function() {}
+      $.couch.db(this.get('name')).create({
+        success: function(data) {
+          callback(null, data)
+        },
+        error: function(status) {
+          callback(status, null)
+        }
+      });
+    },
+
+
+    dropDatabase: function(callback) {
+      if(typeof(callback) != 'function') callback = function() {}
+      $.couch.db(this.get('name')).drop({
+        success: function(data) {
+          callback(null, data)
+        },
+        error: function(status) {
+          callback(status, null)
+        }
+      });
+    },
+
+
+
+    fetchDbInfo: function() {
+      var model = this
+      this.set('status', 'Calculating...')
+      $.couch.db(model.get('name')).info({
+        success: function(data) {
+          model.set('doc_count', data.doc_count)
+          model.set('disk_size', data.disk_size)
+          model.set('status', '')      
+        },
+        error: function(err) {
+          model.set('doc_count', '...')
+          model.set('disk_size', '...')
+          if(err == '404') {
+            model.set('status', 'Creating database...')
+            model.createDatabase(function(err, body) {
+              if(!err) {
+                // Now we can successfully fetch the info
+                model.fetchDbInfo()
+              }
+              else {
+                alert('We found a missing database and could not create it. Redirecting to log you in to see if that helps. Your CouchDB may down if this does not work.')
+                Backbone.history.navigate('', {trigger: true}) 
+              }
+            })
+          }
+          else {
+            // Some other error
+            model.set('status', err)
+          }
+
+        }
+      })
     }
 
   }) 
