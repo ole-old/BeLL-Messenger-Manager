@@ -15,7 +15,7 @@ $(function() {
     render: function() {
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
-      this.$el.append('<button class="btn btn-primary btn-lg active" role="button" id="save">save</button><button class="btn btn-primary btn-lg active" role="button" id="delete">delete</button>')
+      this.$el.append('<button class="btn btn-primary btn-lg active" role="button" id="save">save</button>')
     },
 
     delete: function() {

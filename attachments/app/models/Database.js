@@ -45,12 +45,15 @@ $(function() {
       var database = this
       database.monitorDbInfoChanges('start')
       database.set('status', serverOne + ' --> ' + serverTwo)
-      $.couch.replicate(serverOne + '/' + database.get('name'), serverTwo + '/' + database.get('name'), {success: function() {
+      //$.couch.replicate(serverOne + '/' + database.get('name'), serverTwo + '/' + database.get('name'), {success: function() {
+      $.couch.replicate(database.get('name'), serverTwo + '/' + database.get('name'), {success: function() {
         database.set('status', serverOne + ' <-- ' + serverTwo)
         $.couch.replicate(serverTwo + '/' + database.get('name'), serverOne + '/' + database.get('name'), {success: function() {
           database.set('status', 'done')
           database.trigger('replicationSync:done')
           database.monitorDbInfoChanges('stop')
+          // one last time
+          database.fetchDbInfo()
         }}, {create_target:true})
       }}, {create_target:true})
     },
@@ -118,7 +121,7 @@ $(function() {
       if(op == 'start') {
         this.infoMonitor = setInterval(function(){
           model.fetchDbInfo()
-        },5000)
+        },2000)
       }
       else if(op == 'stop') {
         clearInterval(this.infoMonitor)
